@@ -44,6 +44,20 @@ services:
     depends_on:
       - elasticsearch
 
+  metricbeat:
+    build: metricbeat/
+    restart: unless-stopped
+    pid: host
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - ENVIRONMENT_FIELD=sviluppo
+    volumes:
+      - ./metricbeat/config/metricbeat.yml:/metricbeat/metricbeat.yml
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk
+
 networks:
 
   elk:
